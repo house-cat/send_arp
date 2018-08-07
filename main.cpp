@@ -12,6 +12,8 @@
 
 #define ARP 0x806
 
+#pragma pack(push,1)
+
 typedef struct arp_packet{
 	u_int16_t htype;
 	u_int16_t ptype;
@@ -80,13 +82,13 @@ int main(int argc, char* argv[]){
 		const u_char* packet;
 		int res = pcap_next_ex(handle, &header, &packet);
 		if(res==0) continue;
-		if(res==-1 | res==-2){
+		if(res==-1 || res==-2){
 			printf("ERROR:pcap recieve error\n");
 			return -1;
 		}
 		if(packet[12]==8 && packet[13]==6 && packet[21]==2){
 			if(0==strncmp((char *)packet+28, (char *)arp.target_ip, 4)){
-				memcpy(arp.target_mac, packet+22, 6);
+				memcpy(arp.target_mac, packet+22,6);
 				break;
 			}
 		}
